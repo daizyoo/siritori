@@ -57,9 +57,3 @@ fn last(section: &str) -> char {
     let chars: Vec<char> = section.chars().collect();
     chars[chars.len() - 1]
 }
-
-#[test]
-fn chars() {
-    let section = "こんにちは";
-    let last = section.chars().last().unwrap();
-}
