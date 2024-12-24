@@ -1,8 +1,6 @@
-mod default;
+use crate::input;
 
-fn main() {
-    default::main();
-    return;
+pub fn main() {
     let mut content: Vec<String> = vec![];
 
     let mut player = true;
@@ -14,6 +12,8 @@ fn main() {
     content.push(first_section);
 
     loop {
+        player = !player;
+
         println!("プレイヤー: {}", if player { 1 } else { 2 });
         let section = input();
 
@@ -30,25 +30,30 @@ fn main() {
         previous_last = last(&section);
 
         content.push(section);
-        player = !player;
     }
     println!("プレイヤー{}の負けです", if player { 1 } else { 2 });
 }
 
 fn game_over_check(section: &str) -> bool {
-    section.ends_with('ん')
+    let last = last(section);
+    if last == 'ん' {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 fn check(section: &str, previous_last: char) -> bool {
-    section.starts_with(previous_last)
+    let chars: Vec<char> = section.chars().collect();
+
+    if chars[0] == previous_last {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 fn last(section: &str) -> char {
-    section.chars().last().unwrap()
-}
-
-fn input() -> String {
-    let mut line = String::new();
-    std::io::stdin().read_line(&mut line).unwrap();
-    line.trim().to_string()
+    let chars: Vec<char> = section.chars().collect();
+    chars[chars.len() - 1]
 }
