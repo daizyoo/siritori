@@ -4,7 +4,6 @@ use crate::input;
 
 pub fn main() {
     let mut content: Vec<String> = vec![];
-
     let mut player = true;
 
     let first_section = "しりとり".to_string();
@@ -14,24 +13,23 @@ pub fn main() {
     content.push(first_section);
 
     loop {
-        player = !player;
-
         println!("プレイヤー: {}", if player { 1 } else { 2 });
-        let section = input();
+        let input = input();
 
-        if section.is_empty() || !check(&section, previous_last) {
+        if input.is_empty() || !check(&input, previous_last) {
             println!("{}で始まる単語を入力してください", previous_last);
             continue;
         }
 
-        if game_over_check(&section) {
+        previous_last = last(&input);
+
+        content.push(input.clone());
+        player = !player;
+
+        if game_over_check(&input) {
             println!("`ん`がついたので負けです");
             break;
         }
-
-        previous_last = last(&section);
-
-        content.push(section);
     }
     println!("プレイヤー{}の負けです", if player { 1 } else { 2 });
 }
@@ -58,4 +56,10 @@ fn check(section: &str, previous_last: char) -> bool {
 fn last(section: &str) -> char {
     let chars: Vec<char> = section.chars().collect();
     chars[chars.len() - 1]
+}
+
+#[test]
+fn chars() {
+    let section = "こんにちは";
+    let last = section.chars().last().unwrap();
 }
