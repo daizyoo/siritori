@@ -1,8 +1,6 @@
 mod default;
 
 fn main() {
-    default::main();
-    return;
     let mut content: Vec<String> = vec![];
 
     let mut player = true;
